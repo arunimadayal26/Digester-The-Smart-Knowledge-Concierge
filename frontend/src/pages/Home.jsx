@@ -47,7 +47,7 @@ function Home() {
   return (
   <div className="w-full min-h-screen bg-black text-white flex flex-col items-center justify-center p-4 relative overflow-hidden">
 
-    {/* subtle background grid glow */}
+    {/*background grid glow */}
     <div className="absolute inset-0 opacity-[0.04] pointer-events-none bg-[radial-gradient(#ff2a2a_1px,transparent_1px)] [background-size:22px_22px]" />
 
     {/* SYSTEM STATUS */}

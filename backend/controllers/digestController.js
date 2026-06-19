@@ -2,7 +2,7 @@ import ai from '../config/ai.js';
 import axios from 'axios';
 import * as cheerio from 'cheerio';
 
-// 1. SCRAPER FUNCTION
+// scraper function
 const fetchPageText = async (url) => {
   try {
     const { data } = await axios.get(url, {
@@ -25,7 +25,7 @@ const fetchPageText = async (url) => {
   }
 };
 
-// 2. MAIN CONTROLLER
+//main controller
 export const processDigest = async (req, res) => {
   try {
     const { url } = req.body;
@@ -34,10 +34,10 @@ export const processDigest = async (req, res) => {
       return res.status(400).json({ error: 'URL is required' });
     }
 
-    // STEP 1: scrape real content
+    //scrape real content
     const pageContent = await fetchPageText(url);
 
-    // STEP 2: AI prompt (REAL DATA)
+    // AI prompt
     const prompt = `
 You are Digester AI — a smart knowledge extraction system.
 
@@ -60,7 +60,7 @@ Return ONLY valid JSON (no markdown, no explanation):
 }
 `;
 
-    // STEP 3: AI call
+    //AI call
     const response = await ai.models.generateContent({
       model: 'gemini-2.5-flash',
       contents: prompt,
@@ -68,7 +68,7 @@ Return ONLY valid JSON (no markdown, no explanation):
 
     const rawText = response.text.trim();
 
-    // STEP 4: SAFE JSON PARSE
+    //safe json parse
     let cleanData;
 
     try {
@@ -79,7 +79,7 @@ Return ONLY valid JSON (no markdown, no explanation):
       cleanData = JSON.parse(rawText.slice(start, end + 1));
     }
 
-    // STEP 5: RESPONSE
+    //response
     return res.status(200).json({
       status: 'success',
       url,
